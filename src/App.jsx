@@ -1,3 +1,4 @@
+import NotFound from './pages/NotFound';
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -7,7 +8,6 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import Contact from './pages/Contact';
-import NotFound from './pages/NotFound';
 import './App.css';
 
 export default function App() {
