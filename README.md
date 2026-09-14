@@ -216,6 +216,33 @@ Navigation is handled using `NavLink` components without full-page reloads.
 
 ---
 
+## Backend Integration
+
+The portfolio website is integrated with a Node.js and Express backend.
+
+The backend is located inside the `/server` directory and provides REST API endpoints for project data and contact form submissions.
+
+### Backend Technologies
+
+- Node.js
+- Express.js
+- CORS
+- dotenv
+- JSON file-based persistence
+
+### Backend Structure
+
+```text
+server/
+├── data/
+│   ├── projects.json
+│   └── contacts.json
+├── .env
+├── .env.example
+├── package.json
+├── package-lock.json
+└── server.js
+
 ## Accessibility & Responsive Design
 
 * Semantic HTML elements are used.
