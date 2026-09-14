@@ -5,6 +5,8 @@ export default function Contact() {
   const [formData, setFormData] = useState({ fullName: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [serverError, setServerError] = useState('');
+const [sending, setSending] = useState(false);
 
   const validate = (name, value) => {
     let err = { ...errors };
@@ -29,10 +31,46 @@ export default function Contact() {
     formData.message.trim() !== '' &&
     !errors.fullName && !errors.email && !errors.message;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isFormValid) setSubmitted(true);
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!isFormValid) return;
+
+  setServerError('');
+  setSending(true);
+
+  try {
+    const response = await fetch('http://localhost:5000/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: formData.fullName,
+        email: formData.email,
+        message: formData.message
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to send message');
+    }
+const submittedName = formData.fullName;
+    setSubmitted(true);
+
+setFormData({
+  fullName: formData.fullName,email: '',message: ''
+});
+
+  } catch (error) {
+    console.error('Contact form error:', error);
+    setServerError(error.message);
+  } finally {
+    setSending(false);
+  }
+};
 
   return (
     <section className="contact-section">
@@ -48,6 +86,9 @@ export default function Contact() {
         </div>
       ) : (
         <form className="contact-form" onSubmit={handleSubmit}>
+          {serverError && (
+  <p className="error-msg">{serverError}</p>
+)}
           <div className="form-group">
             <label htmlFor="fullName">Full Name</label>
             <input
@@ -86,9 +127,13 @@ export default function Contact() {
             {errors.message && <span className="error-msg">{errors.message}</span>}
           </div>
 
-          <button type="submit" className="btn btn-primary" disabled={!isFormValid}>
-            SEND MESSAGE
-          </button>
+         <button
+  type="submit"
+  className="btn btn-primary"
+  disabled={!isFormValid || sending}
+>
+  {sending ? 'SENDING...' : 'SEND MESSAGE'}
+</button>
         </form>
       )}
     </section>

@@ -12,7 +12,10 @@ export default function ProjectCard({ project }) {
 
   return (
     <div className="card">
-      <img src={project.image} alt={project.title} />
+      <img
+  src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${project.image}`}
+  alt={project.title}
+/>
       <h2>{project.title}</h2>
       <p>{project.description}</p>
       
