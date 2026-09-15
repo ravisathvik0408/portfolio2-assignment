@@ -1,3 +1,5 @@
+
+// B7 - CORS & Environment Configuration
 require("dotenv").config();
 
 const express = require("express");
@@ -23,12 +25,14 @@ const contactsFilePath = path.join(
     "data/contacts.json"
 );
 
+// B1 - Express Server Setup & Health Check
 app.get("/", (req, res) => {
     res.status(200).json({
         status: "ok"
     });
 });
 
+// B2 - GET /api/projects - Serve Project List
 app.get("/api/projects", (req, res) => {
     try {
         const data = fs.readFileSync(projectsFilePath, "utf-8");
@@ -41,7 +45,7 @@ app.get("/api/projects", (req, res) => {
         });
     }
 });
-
+// B3 - GET /api/projects/:id - Serve a Single Project
 app.get("/api/projects/:id", (req, res) => {
     try {
         const data = fs.readFileSync(projectsFilePath, "utf-8");
@@ -65,6 +69,7 @@ app.get("/api/projects/:id", (req, res) => {
         });
     }
 });
+// B4 - POST /api/contact - Handle Contact Form Submissions
 app.post("/api/contact", (req, res) => {
     const { name, email, message } = req.body;
 
@@ -125,7 +130,7 @@ app.post("/api/contact", (req, res) => {
         });
     }
 });
-
+// B5 - GET /api/contact - List Contact Submissions
 app.get("/api/contact", (req, res) => {
     try {
         const data = fs.readFileSync(contactsFilePath, "utf-8");
@@ -141,13 +146,13 @@ app.get("/api/contact", (req, res) => {
         });
     }
 });
-
+// B6 - Centralized Error Handling & 404s
 app.use((req, res) => {
     res.status(404).json({
         error: "Route not found"
     });
 });
-
+// B6 - Global Express error-handling middleware
 app.use((err, req, res, next) => {
     console.error("SERVER ERROR:", err);
 
@@ -155,7 +160,7 @@ app.use((err, req, res, next) => {
         error: "Internal server error"
     });
 });
-
+// B1 - Start the Express Server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
