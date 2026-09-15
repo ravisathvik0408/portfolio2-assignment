@@ -3,10 +3,14 @@ import ProjectCard from '../components/ProjectCard';
 
 
 export default function Projects() {
+  // F1 - Projects Page: Fetch Projects from Backend API
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  // F2 - Frontend Error State
   const [error, setError] = useState("");
 
+
+  // F1 - Fetch Project Data from GET /api/projects
     useEffect(() => {
     fetch("http://localhost:5000/api/projects")
   .then((response) => {
@@ -17,17 +21,20 @@ export default function Projects() {
     return response.json();
   })
   .then((data) => {
+    // F1 - Store API response in React state
     setProjects(data);
     setLoading(false);
   })
 
      .catch((error) => {
   console.error("Error fetching projects:", error);
+  // F2 - Display Error When Backend Is Unavailable
   setError("Unable to load projects. Please try again later.");
   setLoading(false);
 });
   }, []);
 
+  // F1 - Loading state while API request is in progress
     if (loading) {
     return (
       <section className="services">
@@ -38,7 +45,7 @@ export default function Projects() {
       </section>
     );
   }
-
+// F2 - Visible frontend error state
   if (error) {
   return (
     <section className="services">

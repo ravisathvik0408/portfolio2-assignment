@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+// F4 - Submit Contact Form to Backend API
+// POST /api/contact
 export default function Contact() {
   // Requirement 2.2: Controlled input state & validation state
   const [formData, setFormData] = useState({ fullName: '', email: '', message: '' });
@@ -40,6 +41,7 @@ const [sending, setSending] = useState(false);
   setSending(true);
 
   try {
+    // F4 - Send contact form data to Express backend
     const response = await fetch('http://localhost:5000/api/contact', {
       method: 'POST',
       headers: {
@@ -58,6 +60,7 @@ const [sending, setSending] = useState(false);
       throw new Error(data.error || 'Failed to send message');
     }
 const submittedName = formData.fullName;
+// F4 - Successful submission
     setSubmitted(true);
 
 setFormData({

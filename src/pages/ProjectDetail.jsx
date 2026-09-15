@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-
 import { useParams, Link } from 'react-router-dom';
 
 export default function ProjectDetail() {
 
   const { projectId } = useParams();
 
+  // F3 - State for project data, loading and error
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+
+  // F3 - Fetch Individual Project
+  // GET /api/projects/:id
   useEffect(() => {
     fetch(`http://localhost:5000/api/projects/${projectId}`)
       .then((response) => {
@@ -38,6 +41,7 @@ export default function ProjectDetail() {
     );
   }
 
+  // F3 - Display "Project Not Found" for invalid project ID
   if (error) {
     return (
       <section style={{ textAlign: 'center' }}>
